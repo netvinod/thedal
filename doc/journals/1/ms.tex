@@ -1,0 +1,135 @@
+\documentclass{article}
+
+% if you need to pass options to natbib, use, e.g.:
+% \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading nips_2018
+
+% ready for submission
+\usepackage[final]{nips_2018_custom}
+\usepackage{ms_custom}
+
+% to compile a preprint version, e.g., for submission to arXiv, add
+% add the [preprint] option:
+%\usepackage[preprint]{nips_2018}
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+% \usepackage[final]{nips_2018}
+
+% to avoid loading the natbib package, add option nonatbib:
+% \usepackage[nonatbib]{nips_2018}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+
+\title{Thedal: An Object Detection Framework using Transfer Learning}
+
+% The \author macro works with any number of authors. There are two
+% commands used to separate the names and addresses of multiple
+% authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to
+% break the lines. Using \AND forces a line break at that point. So,
+% if LaTeX puts 3 of 4 authors names on the first line, and the last
+% on the second line, try using \AND instead of \And before the third
+% author name.
+
+\author{
+  Vinod Seshardri\\
+  \texttt{netvinod@hotmail.com} \\
+  %% examples of more authors
+  \And
+  Parthiban Rajendran \\
+  \texttt{parthi292929@gmail.com}
+}
+
+\begin{document}
+
+
+\maketitle
+
+\begin{abstract}
+	
+Transfer learning is a technique used in deep learning to transfer the necessary parameters from the learnt model to another model to avoid training the latter and thus saving time and cost. However, currently this technique is only applied to same classes of objects. In this paper, we attempt to solve this by carefully choosing base model for given object category, transfer the parameters to create new target model to identify objects of given category. 
+
+\end{abstract}
+
+\section{Introduction}
+
+Transfer learning is a technique used in deep learning to transfer the necessary parameters from the learnt model to another model to avoid
+training the latter and thus saving time and cost. However, currently this technique is only applied to same classes of objects. For example, a base model trained to identify building is again used to train another target model with same or similar parameters. So models train models to detect buildings, but specificity of the object classes stop there. A model trained to identify building cannot identify temples or auditoriums. In this paper, we attempt to solve this by carefully choosing base model for given object category, transfer the parameters to create new target model to identify objects of given category. That is if we need to identify temples, we take base model for buildings, transfer the learning to new target model to identify temples without training target model from scratch. 
+
+\section{System Overview}
+
+Apart from regular pre processing of input data (pictures, descriptsion etc) there are primarily two stages of operation in the framework. 
+
+\begin{itemize}
+	\item Select and Use Base Model
+	\item Transfer Learning
+\end{itemize}
+
+The output of the framework could be anything as desired by the user, and typically we could start with serving as an API. The pre processing is useful for both the stages and the inputs could not only be given samples of target objects but also descriptions and any metadata as provided by the framework as it grows. 
+
+	    \begin{figure}[!hpt]
+		
+		\begin{tikzpicture}[%
+		every path/.style={thick,% shorten >=pt, shorten <=2pt
+		},
+		node distance=2cm,
+		]
+		
+		
+		\node [process] (pro1) at (0,0) {Image File \\Location};                
+		\node [process](pro2) [below=1cm of pro1 ] {Image\\Description};
+		\node [process](pro3) [above right= 0cm and 1cm of pro2] {Image Dataset\\Augmentation};     
+		\node [process](pro4) [below= 1cm of pro2] {Execution Infra\\Details};
+		\node [process](pro5) [below= 1cm of pro4] {Model Parameters\\Base};
+		\node [process](pro6) [above right =0cm and 1cm of pro5] {Download Model \\Base};
+		\node [process](pro7) [above right= 1cm and -1cm of pro6] {Transfer Learning \\Train Modules};
+		\node [process](pro8) [right =1cm of pro7] {Model Serving\\Webapp/App};
+		\node (clo1)[cloud, cloud puffs=15.7, above=4.5cm of pro7,xshift=2.25cm, minimum width=3cm, draw, fill=green!20] {Cloud};
+		
+		\begin{scope}[on background layer]
+		\node  [container1,fit= { (pro1) (pro2) (pro4) (pro5) }] (block1) {};
+		\node  [container1,fit=(pro3) (pro7) (pro6), fill=cyan!20] (block2) {};
+		\node  [container1,fit=(pro8), fill=red!10] (block3) {};
+		\path [arrow,draw] (pro4.east)--([xshift=0.7cm]pro4.east);
+		\node [left=1cm of pro4,yshift=-4.3cm](inter){};
+		\path [arrow,draw,inner sep=0pt,outer sep=0pt] (pro4) -| (inter.center) -| (block3);
+		
+		\end{scope}
+		
+		\draw [arrow] (pro1) -| (pro3);
+		\draw [arrow] (pro2) -| (pro3);
+		\draw [arrow] (pro5) -| (pro6);
+		\draw [arrow] (pro3) -| (pro7);
+		\draw [arrow] (pro6) -| (pro7);
+		%           \draw [arrow] (pro7) -| (clo1);   # needs an offset arrow from pro7
+		\draw [arrow] (clo1) -| (pro8);
+		
+		\path [draw=black,->, -Stealth] ([xshift=.25cm]pro7.north) |- (clo1.west);
+		\end{tikzpicture}   
+		\caption{System Overview} \label{fig:M_001}
+		
+	\end{figure}
+
+\newpage
+
+\section*{References}
+
+\medskip
+
+\small
+
+[1]Jason (Jinquan) Dai, Yiheng Wang and Xin Qiu (1995) Template-based algorithms
+for connectionist rule extraction. In G.\ Tesauro, D.S.\ Touretzky and
+T.K.\ Leen (eds.), {\it Advances in Neural Information Processing
+  Systems 7}, pp.\ 609--616. Cambridge, MA: MIT Press.
+
+
+\end{document}
