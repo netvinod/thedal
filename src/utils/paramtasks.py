@@ -1,3 +1,3 @@
 import json
-def read_param(self, parameter_list):
+def read_param(self, **kwargs):
     pass
