@@ -1,7 +1,8 @@
 import keras
 import tensorflow as tf 
+import tarfile
 
-
+'''Deals with Tensorflow model'''
 
 def run_training(self, **kwargs):
     '''
@@ -28,10 +29,15 @@ def _download_model(self,**kwargs):
     return
     Extracted path
     '''
+
+
     pass
 def _prepare_config_file_for_training(self, **kwargs):
     pass
 def _extract_model(self,**kwargs):
+    tar = tarfile.open(downloaded_model_path)
+    tar.extractall()
+    tar.close()
     pass
 def _upload_model(self, **kwargs):
     pass

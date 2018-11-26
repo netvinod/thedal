@@ -1,0 +1,18 @@
+{
+	"framework": "Tensorflow 1.x",
+	"model": "VGGNET16",
+	"source_image": {
+		"source_image_folder": "/home/images_path",
+		"source_image_search_string": "",
+		"source_image_augment": "True"
+	},
+	"output_upload": {
+		"upload_location": "",
+		"cred_user": "",
+		"cred_password": ""
+	},
+	"training_infra": {
+		"ssh_path": "",
+		"hostname": ""
+	}
+}
