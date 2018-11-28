@@ -1,6 +1,11 @@
 import keras
 import tensorflow as tf 
 import tarfile
+import sys
+import os
+import wget
+
+
 
 '''Deals with Tensorflow model'''
 
@@ -20,7 +25,7 @@ def run_training(self, **kwargs):
     pass
 def _save_to_model(self, **kwargs):
     pass
-def _download_model(self,**kwargs):
+def _download_model(model_directory, download_url):
     '''
     Downloads the model and extracts the chkpoint from a pre-trained model
 
@@ -30,14 +35,12 @@ def _download_model(self,**kwargs):
     Extracted path
     '''
 
-
-    pass
+    filename = wget.download(download_url,os.path.join(model_directory,filename))
+    return os.path.join(model_directory,filename)
 def _prepare_config_file_for_training(self, **kwargs):
     pass
-def _extract_model(self,**kwargs):
-    tar = tarfile.open(downloaded_model_path)
-    tar.extractall()
-    tar.close()
-    pass
+def _extract_model(file_path, extracted_folder):
+
+    tarfile.open(filepath, 'r:gz').extractall(dest_directory)
 def _upload_model(self, **kwargs):
     pass
